@@ -80,7 +80,7 @@ const Footer = ({ data }) => {
         {/* Copyright */}
         <div className="border-t border-gray-800 pt-8">
           <p className="text-center text-gray-400">
-            © {currentYear} {data.name || "Your Name"}. All rights reserved
+            © {currentYear} Nawfal ADDAOUI. All rights reserved
           </p>
         </div>
       </div>
