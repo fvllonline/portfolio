@@ -245,7 +245,7 @@ const siteData = {
       { text: "About", url: "#about" },
       { text: "Resume", url: "#resume" },
       { text: "Portfolio", url: "#portfolio" },
-      { text: "Blog", url: "#blog" },
+      { text: "My Certifications", url: "#certifications" },
     ],
     services: ["Frontend Devlopment", "Backend Devlopment" , "Mobile Devlopment" ,  "UI/UX Design"],
   },

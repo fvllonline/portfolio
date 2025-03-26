@@ -2,6 +2,7 @@
 
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa"
 import mina from "../assets/mina.jpg"
+import yns from "../assets/yns.jpg"
 
 const TestimonialCard = ({ name, position, testimonial, image }) => {
   return (
@@ -45,6 +46,15 @@ const Testimonials = () => {
             position="Founder/CEO of MB Way"
             testimonial="Your work demonstrates a strong mastery of full stack skills, with a methodical and well-structured approach. The code is both clean and optimized, ensuring good performance and future scalability. Congratulations on this high-quality achievement."
             image={mina}
+          />
+        
+
+          {/* Carte 1 - À personnaliser */}
+          <TestimonialCard
+            name="Mr. BENNAY Youness"
+            position="Founder/CEO of Adam Adventure Tours & Tourism"
+            testimonial="Working with Nawfal was a game-changer for our project. His full-stack expertise bridged our frontend and backend seamlessly, delivering a React + Laravel application 2 weeks ahead of schedule. His clean code and problem-solving skills set him apart - we've hired him for three more projects since!"
+            image={yns}
           />
         </div>
 
