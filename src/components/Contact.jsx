@@ -54,17 +54,17 @@ const Contact = () => {
             <ContactInfo 
               icon={FaMapMarkerAlt} 
               title="Address" 
-              content="Casablanca, Morocco" 
+              content="Morocco, Casablanca" 
             />
             <ContactInfo 
               icon={FaPhone} 
               title="Phone" 
-              content="+212 6 XX XX XX XX" 
+              content="+212 631-108355" 
             />
             <ContactInfo 
               icon={FaEnvelope} 
               title="Email" 
-              content="contact@nawfal.com" 
+              content="Naoufaladdaoui@gmail.com" 
             />
 
             <div className="mt-8">
@@ -82,7 +82,7 @@ const Contact = () => {
                   <FaLinkedin size={18} />
                 </a>
                 <a
-                  href="https://github.com/yourusername" 
+                  href="https://github.com/fvllonline" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-beige-light rounded-full flex items-center justify-center text-gray-dark hover:bg-gray-dark hover:text-white transition-all duration-300"
