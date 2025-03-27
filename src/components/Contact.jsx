@@ -1,19 +1,27 @@
 "use client"
 
-import { useState } from "react"
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaLinkedin, FaGithub } from "react-icons/fa"
+import { motion, useAnimation, useInView } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaLinkedin, FaGithub, FaExternalLinkAlt } from "react-icons/fa"
 
-const ContactInfo = ({ icon: Icon, title, content }) => {
+const ContactInfo = ({ icon: Icon, title, content, variants }) => {
   return (
-    <div className="flex items-start gap-4 mb-6 transition-all duration-300 hover:scale-[1.02]">
-      <div className="w-12 h-12 bg-beige-light rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-        <Icon className="text-gray-dark" size={18} />
-      </div>
+    <motion.div 
+      className="flex items-start gap-4 mb-6"
+      variants={variants}
+      whileHover={{ x: 5 }}
+    >
+      <motion.div 
+        className="w-12 h-12 bg-beige-light rounded-full flex items-center justify-center flex-shrink-0 shadow-sm group"
+        whileHover={{ scale: 1.1, rotate: 5 }}
+      >
+        <Icon className="text-gray-dark group-hover:text-gray-700 transition-colors" size={18} />
+      </motion.div>
       <div>
         <h3 className="text-lg font-bold mb-1 text-gray-dark">{title}</h3>
         <p className="text-gray-dark/80">{content}</p>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -25,6 +33,38 @@ const Contact = () => {
     subject: "",
     message: "",
   })
+
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { margin: "-100px", once: false })
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [isInView, controls])
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100 }
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -38,67 +78,113 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-white">
+    <section id="contact" className="py-16 md:py-24 bg-white" ref={ref}>
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-dark">
+        <motion.div
+          className="text-center mb-12"
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+        >
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold mb-4 text-gray-dark"
+            variants={itemVariants}
+          >
             Contact Me
-          </h2>
-          <p className="text-xl font-medium text-gray-dark/80">I'M AVAILABLE FOR OPPORTUNITIES</p>
-          <div className="w-20 h-1 bg-gray-dark mx-auto mt-4"></div>
-        </div>
+          </motion.h2>
+          <motion.p
+            className="text-xl font-medium text-gray-dark/80 mb-4"
+            variants={itemVariants}
+          >
+            I'M AVAILABLE FOR OPPORTUNITIES
+          </motion.p>
+          <motion.div 
+            className="w-20 h-1 bg-gray-dark mx-auto"
+            variants={itemVariants}
+          />
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <motion.div 
+          className="grid md:grid-cols-2 gap-12"
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+        >
           {/* Left Column - Contact Info */}
-          <div>
+          <motion.div variants={itemVariants}>
             <ContactInfo 
               icon={FaMapMarkerAlt} 
               title="Address" 
-              content="Morocco, Casablanca" 
+              content="Morocco, Casablanca"
+              variants={itemVariants}
             />
             <ContactInfo 
               icon={FaPhone} 
               title="Phone" 
-              content="+212 631-108355" 
+              content="+212 631-108355"
+              variants={itemVariants}
             />
             <ContactInfo 
               icon={FaEnvelope} 
               title="Email" 
-              content="Naoufaladdaoui@gmail.com" 
+              content="Naoufaladdaoui@gmail.com"
+              variants={itemVariants}
             />
 
-            <div className="mt-8">
+            <motion.div 
+              className="mt-8"
+              variants={itemVariants}
+            >
               <p className="text-gray-dark/80 mb-6">
                 Feel free to reach out for collaborations or just a friendly hello.
               </p>
 
-              <div className="flex gap-4">
-                <a
+              <motion.div 
+                className="flex gap-4"
+                variants={itemVariants}
+              >
+                <motion.a
                   href="https://www.linkedin.com/in/nawfal-addaoui-40b651248/" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-beige-light rounded-full flex items-center justify-center text-gray-dark hover:bg-gray-dark hover:text-white transition-all duration-300"
+                  whileHover={{ y: -3, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <FaLinkedin size={18} />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
                   href="https://github.com/fvllonline" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-beige-light rounded-full flex items-center justify-center text-gray-dark hover:bg-gray-dark hover:text-white transition-all duration-300"
+                  whileHover={{ y: -3, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <FaGithub size={18} />
-                </a>
-              </div>
-            </div>
-          </div>
+                </motion.a>
+              </motion.div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column - Contact Form */}
-          <div className="bg-beige-light p-8 rounded-lg shadow-sm border border-beige-light/50">
-            <h3 className="text-2xl font-bold mb-6 text-gray-dark">Send Me a Message</h3>
+          <motion.div 
+            className="bg-beige-light p-8 rounded-lg shadow-sm border border-beige-light/50"
+            variants={itemVariants}
+          >
+            <motion.h3 
+              className="text-2xl font-bold mb-6 text-gray-dark"
+              variants={itemVariants}
+            >
+              Send Me a Message
+            </motion.h3>
+            
             <form onSubmit={handleSubmit}>
-              <div className="grid md:grid-cols-2 gap-4 mb-4">
-                <div>
+              <motion.div 
+                className="grid md:grid-cols-2 gap-4 mb-4"
+                variants={containerVariants}
+              >
+                <motion.div variants={itemVariants}>
                   <input
                     type="text"
                     name="name"
@@ -108,8 +194,8 @@ const Contact = () => {
                     className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
                     required
                   />
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={itemVariants}>
                   <input
                     type="email"
                     name="email"
@@ -119,10 +205,14 @@ const Contact = () => {
                     className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
                     required
                   />
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4 mb-4">
-                <div>
+                </motion.div>
+              </motion.div>
+              
+              <motion.div 
+                className="grid md:grid-cols-2 gap-4 mb-4"
+                variants={containerVariants}
+              >
+                <motion.div variants={itemVariants}>
                   <input
                     type="tel"
                     name="phone"
@@ -131,8 +221,8 @@ const Contact = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
                   />
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={itemVariants}>
                   <input
                     type="text"
                     name="subject"
@@ -142,9 +232,13 @@ const Contact = () => {
                     className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
                     required
                   />
-                </div>
-              </div>
-              <div className="mb-4">
+                </motion.div>
+              </motion.div>
+              
+              <motion.div 
+                className="mb-4"
+                variants={itemVariants}
+              >
                 <textarea
                   name="message"
                   placeholder="Your Message"
@@ -154,27 +248,37 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
                   required
                 ></textarea>
-              </div>
-              <div className="space-y-4">
-                <button
+              </motion.div>
+              
+              <motion.div 
+                className="space-y-4"
+                variants={containerVariants}
+              >
+                <motion.button
                   type="submit"
                   className="px-6 py-3 bg-gray-dark text-white rounded-md hover:bg-black transition-all duration-300 flex items-center gap-2 w-full justify-center hover:shadow-md"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  variants={itemVariants}
                 >
                   Send Message <FaPaperPlane size={16} />
-                </button>
+                </motion.button>
                 
-                <a
+                <motion.a
                   href="https://www.linkedin.com/in/nawfal-addaoui-40b651248/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center px-6 py-3 border border-gray-dark text-gray-dark rounded-md hover:bg-gray-dark hover:text-white transition-all duration-300 w-full"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  variants={itemVariants}
                 >
                   Contact on LinkedIn
-                </a>
-              </div>
+                </motion.a>
+              </motion.div>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
