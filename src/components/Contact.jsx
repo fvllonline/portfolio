@@ -172,7 +172,7 @@ const Contact = () => {
             
             {state.succeeded ? (
               <p className="text-green-600 font-semibold text-center">
-                Thank you! Your message has been sent successfully. 🚀
+                Thank you! Your message has been sent successfully.
               </p>
             ) : (
               <form onSubmit={handleSubmit}>
