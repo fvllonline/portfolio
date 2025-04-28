@@ -114,6 +114,12 @@ const Certifications = () => {
       issuer: "Cisco Networking Academy",
       logo: ciscologo,
       link: "https://www.credly.com/badges/c7c19e42-e87d-4f43-a068-e729d103945c"
+    },
+    {
+      title: "Junior Cybersecurity Analyst Career Path",
+      issuer: "Cisco Networking Academy",
+      logo: ciscologo,
+      link: "https://www.credly.com/badges/c7c19e42-e87d-4f43-a068-e729d103945c"
     }
   ]
 
