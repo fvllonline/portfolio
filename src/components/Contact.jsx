@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
-import { motion, useAnimation, useInView } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaLinkedin, FaGithub, FaExternalLinkAlt } from "react-icons/fa"
+import { motion, useAnimation, useInView } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const ContactInfo = ({ icon: Icon, title, content, variants }) => {
   return (
@@ -22,8 +23,8 @@ const ContactInfo = ({ icon: Icon, title, content, variants }) => {
         <p className="text-gray-dark/80">{content}</p>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -32,19 +33,21 @@ const Contact = () => {
     phone: "",
     subject: "",
     message: "",
-  })
+  });
 
-  const controls = useAnimation()
-  const ref = useRef(null)
-  const isInView = useInView(ref, { margin: "-100px", once: false })
+  const [state, handleSubmit] = useForm("movdjqaa"); // Ton ID Formspree ici !
+
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-100px", once: false });
 
   useEffect(() => {
     if (isInView) {
-      controls.start("visible")
+      controls.start("visible");
     } else {
-      controls.start("hidden")
+      controls.start("hidden");
     }
-  }, [isInView, controls])
+  }, [isInView, controls]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -55,7 +58,7 @@ const Contact = () => {
         delayChildren: 0.3
       }
     }
-  }
+  };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -64,18 +67,12 @@ const Contact = () => {
       opacity: 1,
       transition: { type: "spring", stiffness: 100 }
     }
-  }
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    alert("Message sent successfully!")
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <section id="contact" className="py-16 md:py-24 bg-white" ref={ref}>
@@ -131,18 +128,12 @@ const Contact = () => {
               variants={itemVariants}
             />
 
-            <motion.div 
-              className="mt-8"
-              variants={itemVariants}
-            >
+            <motion.div className="mt-8" variants={itemVariants}>
               <p className="text-gray-dark/80 mb-6">
                 Feel free to reach out for collaborations or just a friendly hello.
               </p>
 
-              <motion.div 
-                className="flex gap-4"
-                variants={itemVariants}
-              >
+              <motion.div className="flex gap-4" variants={itemVariants}>
                 <motion.a
                   href="https://www.linkedin.com/in/nawfal-addaoui-40b651248/" 
                   target="_blank"
@@ -176,112 +167,97 @@ const Contact = () => {
               className="text-2xl font-bold mb-6 text-gray-dark"
               variants={itemVariants}
             >
-              Send Me a Message
+              Send me a message
             </motion.h3>
             
-            <form onSubmit={handleSubmit}>
-              <motion.div 
-                className="grid md:grid-cols-2 gap-4 mb-4"
-                variants={containerVariants}
-              >
-                <motion.div variants={itemVariants}>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
-                    required
-                  />
+            {state.succeeded ? (
+              <p className="text-green-600 font-semibold text-center">
+                Thank you! Your message has been sent successfully. 🚀
+              </p>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <motion.div className="grid md:grid-cols-2 gap-4 mb-4" variants={containerVariants}>
+                  <motion.div variants={itemVariants}>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
+                      required
+                    />
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
+                      required
+                    />
+                    <ValidationError prefix="Email" field="email" errors={state.errors} />
+                  </motion.div>
                 </motion.div>
-                <motion.div variants={itemVariants}>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
-                    required
-                  />
-                </motion.div>
-              </motion.div>
-              
-              <motion.div 
-                className="grid md:grid-cols-2 gap-4 mb-4"
-                variants={containerVariants}
-              >
-                <motion.div variants={itemVariants}>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Your Phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
-                  />
-                </motion.div>
-                <motion.div variants={itemVariants}>
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
-                    required
-                  />
-                </motion.div>
-              </motion.div>
-              
-              <motion.div 
-                className="mb-4"
-                variants={itemVariants}
-              >
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
-                  required
-                ></textarea>
-              </motion.div>
-              
-              <motion.div 
-                className="space-y-4"
-                variants={containerVariants}
-              >
-                <motion.button
-                  type="submit"
-                  className="px-6 py-3 bg-gray-dark text-white rounded-md hover:bg-black transition-all duration-300 flex items-center gap-2 w-full justify-center hover:shadow-md"
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  variants={itemVariants}
-                >
-                  Send Message <FaPaperPlane size={16} />
-                </motion.button>
                 
-                <motion.a
-                  href="https://www.linkedin.com/in/nawfal-addaoui-40b651248/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-6 py-3 border border-gray-dark text-gray-dark rounded-md hover:bg-gray-dark hover:text-white transition-all duration-300 w-full"
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  variants={itemVariants}
-                >
-                  Contact on LinkedIn
-                </motion.a>
-              </motion.div>
-            </form>
+                <motion.div className="grid md:grid-cols-2 gap-4 mb-4" variants={containerVariants}>
+                  <motion.div variants={itemVariants}>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Your Phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
+                    />
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <input
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
+                      required
+                    />
+                  </motion.div>
+                </motion.div>
+                
+                <motion.div className="mb-4" variants={itemVariants}>
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    className="w-full px-4 py-3 border border-beige-light/70 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-dark/30 bg-white"
+                    required
+                  ></textarea>
+                  <ValidationError prefix="Message" field="message" errors={state.errors} />
+                </motion.div>
+                
+                <motion.div className="space-y-4" variants={containerVariants}>
+                  <motion.button
+                    type="submit"
+                    className="px-6 py-3 bg-gray-dark text-white rounded-md hover:bg-black transition-all duration-300 flex items-center gap-2 w-full justify-center hover:shadow-md"
+                    whileHover={{ y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    variants={itemVariants}
+                    disabled={state.submitting}
+                  >
+                    {state.submitting ? "Sending..." : <>Send Message <FaPaperPlane size={16} /></>}
+                  </motion.button>           
+                </motion.div>
+              </form>
+            )}
           </motion.div>
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;
