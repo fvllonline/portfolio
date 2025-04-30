@@ -212,7 +212,7 @@ const Resume = ({ data }) => {
             download 
             className="inline-block bg-gray-dark text-white px-6 py-3 rounded-full font-semibold shadow-md hover:bg-black transition-colors"
           >
-            Télécharger mon CV
+            Download my resume
           </a>
           </motion.div>
           
