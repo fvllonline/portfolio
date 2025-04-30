@@ -2,6 +2,7 @@
 
 import { motion, useAnimation, useInView } from "framer-motion"
 import { useEffect, useRef } from "react"
+import CV from "../assets/NAWFALCV.pdf" // Import du CV
 
 const ResumeItem = ({ title, organization, period, description, variants }) => {
   return (
@@ -206,33 +207,19 @@ const Resume = ({ data }) => {
                 />
               ))}
             </div>
+            <a 
+            href={CV} 
+            download 
+            className="inline-block bg-gray-dark text-white px-6 py-3 rounded-full font-semibold shadow-md hover:bg-black transition-colors"
+          >
+            Télécharger mon CV
+          </a>
           </motion.div>
+          
         </motion.div>
 
-        {/* Download Button */}
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={controls}
-          transition={{ delay: 0.5 }}
-        >
-          <motion.button 
-            onClick={() => window.open("https://www.linkedin.com/in/nawfal-addaoui-40b651248/", "_blank")}
-            className="
-              px-8 py-3 
-              bg-gray-dark text-beige-light 
-              rounded-md 
-              hover:bg-gray-dark/90 
-              transition-colors
-              border-2 border-gray-dark
-              hover:text-beige-light
-            "
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            View LinkedIn Profile
-          </motion.button>
-        </motion.div>
+        {/* Télécharger CV */}
+        
       </div>
     </section>
   )
